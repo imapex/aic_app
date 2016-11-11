@@ -46,12 +46,28 @@ def hba_swap():
     return
 
 def call_nxapi(ip_address):
-    sys.stdout.write('DEBUG: Executing "nxapi" plugin\n')
-    url = ip_address + 'path/to/nx-api'
+    sys.stdout.write('DEBUG: call_nxapi: Executing "nxapi" plugin\n')
+
+    switchuser='danwms'
+    switchpassword='AICteam'
+
+    url = 'http://'+ip_address+':8080'
     headers = {'Content-Type': 'application/json'
                 }
-    resp = request.get(url)
-    return resp.json()['items']
+    payload={
+        "ins_api": {
+        "version": "1.2",
+        "type": "cli_show",
+        "chunk": "0",
+        "sid": "1",
+        "input": "show zoneset active vsan 10",
+        "output_format": "json"
+        }
+    }
+    sys.stdout.write('DEBUG: call_nxapi(): Making NX-API Call.\n')
+    response = requests.post(url,data=json.dumps(payload), headers=myheaders,auth=(switchuser,switchpassword)).json()
+    sys.stdout.write('DEBUG: call_nxapi(): NX-API response: '+json.dumps(response, indent=4, sort_keys=True)+'.\n')
+    return resp.json(response)
 
 @app.route('/')
 def get_http_root():
