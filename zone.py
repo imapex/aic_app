@@ -21,6 +21,9 @@ vsan = 10
 
 debug=0
 
+#
+# first, get existing zoneset
+#
 myheaders={'content-type':'application/json-rpc'}
 payload=[
   {
@@ -68,6 +71,25 @@ response = requests.post(url,data=json.dumps(payload), headers=myheaders,auth=(s
 #
 # if enhanced zoning, commit changes
 #
+# first, gett he zoning method status
+#
+myheaders={'content-type':'application/json-rpc'}
+payload=[
+  {
+    "jsonrpc": "2.0",
+    "method": "cli",
+    "params": {
+      "cmd": "show zone status vsan 10",
+      "version": 1.2
+    },
+    "id": 1
+  }
+]
+response = requests.post(url,data=json.dumps(payload), headers=myheaders,auth=(switchuser,switchpassword)).json()
+print (json.dumps(response, indent=4))
+
+# DW: then test whether string "mode: enhanced" was returned
+
 myheaders={'content-type':'application/json-rpc'}
 payload=[
   {
