@@ -3,6 +3,8 @@ from flask import jsonify
 from flask import make_response
 from flask import abort
 from flask import request
+import requests
+import json
 import uuid
 import sys
 
@@ -35,23 +37,43 @@ def call_selected_plugin(plugin, ip_address):
     sys.stdout.write('DEBUG: call_selected_plugin(): Plugin requested is "'+plugin+'".\n')
     if plugin == 'hba_swap':
         sys.stdout.write('DEBUG: call_selected_plugin(): Calling hba_swap().\n')
-        hba_swap()
+        hba_swap(ip_address)
     else:
         sys.stdout.write('DEBUG: call_selected_plugin(): Calling call_nxaip().\n')
         call_nxapi(ip_address)
     return 
 
-def hba_swap():
+def hba_swap(ipaddress):
     sys.stdout.write('DEBUG: hba_swap(): Executing "hba_swap" plugin.\n')
+
+    payload={
+        "ins_api": {
+        "version": "1.2",
+        "type": "cli_show",
+        "chunk": "0",
+        "sid": "1",
+        "input": "show zoneset active vsan 10",
+        "output_format": "json"
+        }
+    }
+
+    sys.stdout.write('DEBUG: hba_swap(): Calling call_nxapi().\n')
+    call_nxapi(ipaddress, payload)
     return
 
-def call_nxapi(ip_address):
-    sys.stdout.write('DEBUG: Executing "nxapi" plugin\n')
-    url = ip_address + 'path/to/nx-api'
-    headers = {'Content-Type': 'application/json'
+def call_nxapi(ip_address, payload):
+    sys.stdout.write('DEBUG: call_nxapi: Executing "nxapi" plugin\n')
+
+    switchuser='danwms'
+    switchpassword='AICteam'
+
+    url = 'http://'+ip_address+':8080/ins'
+    headers = {'content-Type': 'application/json'
                 }
-    resp = request.get(url)
-    return resp.json()['items']
+    sys.stdout.write('DEBUG: call_nxapi(): Making NX-API Call:'+url+'\n')
+    response = requests.post(url,data=json.dumps(payload), headers=headers,auth=(switchuser,switchpassword)).json()
+    sys.stdout.write('DEBUG: call_nxapi(): NX-API response: '+json.dumps(response, indent=4, sort_keys=True)+'.\n')
+    return response
 
 @app.route('/')
 def get_http_root():
@@ -71,7 +93,7 @@ def get_api_plugins_list():
 
 @app.route('/aic/api/v1.0/task', methods=['GET'])
 def get_api_tasks():
-    return jsonify({'tasks': tasks})
+    return jsonify({'task': task})
 
 @app.route('/aic/api/v1.0/task', methods=['POST'])
 def create_task():
@@ -100,7 +122,7 @@ def create_task():
 #        sys.stdout.write('The chosen plugin was: '+task['selected-task']+'\n')
 #    #            print task['selected-task']
 #        call_selected_plugin(task['selected-task'], task['ip_address'])
-
+    task['done'] = True
     return jsonify({'task': task}), 201
 
 @app.route('/aic/api/v1.0/task/<int:task_id>', methods=['GET'])
