@@ -93,24 +93,7 @@ def configure_zone(ip, OldPwwn, OldDevAlias, NewPwwn):
                         update_zone(url, myheaders, zonename, vsanID, NewPwwn, zoneset)
                 except:
                     print ('top loop debug')
-#            except:
-#                print ('debug: do not need this print')
-#            else:
-#                try:
-                    # if only one zone, assign 'zones' directly bypassing type (list) conflict
-# DW - NEED TO LOOK AT HOW ZONE &  ZONE_MEMBER get populated. it is trying to add new pwwn 3 times (one for each pwwn in IMzone1)
-#                    zones = zoneset_vsan['TABLE_zone']['ROW_zone']
-#                    for zone_member in zones['TABLE_zone_member']['ROW_zone_member']:
-#                        if zone_member.get('wwn') is not None and zone_member.get('wwn') == OldPwwn:
-#                            pwwn = zone_member.get('wwn')
-#                            zonename = zones['zone_name']
-#                            vsanID = zones['zone_vsan_id']
-#                            zoneset = zoneset_vsan['zoneset_name']
-#                            # Call update_zone to add new pwwn to zone and activate
-#                            update_zone(url, myheaders, zonename, vsanID, NewPwwn, zoneset)
-#
-#                except:
-#                    print "debug: failed zones assignmend, bottom loop"
+
 
 
 def main():
