@@ -1,18 +1,34 @@
 #
-# configure_zone() takes the switch ip address, OldPwwn, searches existing zoneset for instances of
-# that Pwwn and adds the NewPwwn to those zones and activates the new updated zoenset.
+# input ( ip, Old Pwwn, New Pwwn ) to program. Using fixed values here for testing
+# DW - add device alias option if time permits
+#
+# note for testing - you can remove the 33:33:33:33:33:33:33:33 zone member from the MDS switch using
+#
+#               config t
+#               zone name IMzone1 vsan 10
+#               no member pwwn 33:33:33:33:33:33:33:33
+#               zoneset activate name IMzoneset vsan 10
+#
+import requests
+import json
+
+#
+# credentials for switch - need to encrypt these
+#
+username = "danwms"
+password = "AICteam"
+
+
+#
+# configure_zone() takes the switch ip address/url, the header for the request, OldPwwn, Old Device Alias (future),
+#  and the New Pwwn to add to the zone.
+# Routine first searches existing the zoneset for instances of the Old Pwwn
+# and then adds the NewPwwn to those zones and activates the new updated zoneset.
 # As time permits, Device Alias capability will also be added
 #
 
-def configure_zone(ipaddr, OldPwwn, OldDevAlias, NewPwwn):
+def configure_zone(url, myheaders, OldPwwn, OldDevAlias, NewPwwn):
 
-    #
-    # credentials for switch - need to encrypt these
-    #
-    myheaders = {'content-type': 'application/json-rpc'}
-    url = "http://" + ipaddr + "/ins"
-    username = "danwms"
-    password = "AICteam"
 
     # get current zoneset info from switch
     #
@@ -23,15 +39,17 @@ def configure_zone(ipaddr, OldPwwn, OldDevAlias, NewPwwn):
     zone_table = response['result']['body']['TABLE_zoneset']['ROW_zoneset']
 
     #
-    # check current zoneset for the old pwwn. If found, add the new pwwn to all zones that contain the old one and activate the zoneset
-    #
+    # check current zoneset for the old pwwn. If found, add the new pwwn to all zones that contain the old one
+    # and activate the zoneset
     #
     # start by parsing the zoneset table
     #
     for zoneset_vsan in zone_table:
         for zones in zoneset_vsan['TABLE_zone']['ROW_zone']:
     #
-    #	parsing inconsistant json structure. If single zone in zoneset, ROW_zone is type dict rather than list. testing type and proceeding accordingly
+    #	Ran into a problem parsing the json structure.
+    #   If only a single zone in present in the zoneset, ROW_zone is type dict rather than list. So I need to
+    #   testing type and adjust 'zone' accordingly (kludgy)
     #
             if isinstance(zones,dict):
                 try:
@@ -74,17 +92,20 @@ def configure_zone(ipaddr, OldPwwn, OldDevAlias, NewPwwn):
     print (json.dumps(response[3]['result']['msg'], indent=4))
 
 
-def main():
+def zone():
+
     # print "enter ip address"
     # ip=raw_input()
     ip = "172.22.163.35:8080"
+
+    header = {'content-type': 'application/json-rpc'}
+    sw_url = "http://" + ip + "/ins"
 
     OPwwn = u'11:11:11:11:11:11:11:11'
     ODevAlias = 'OldDeviceAlias'
     NPwwn = '33:33:33:33:33:33:33:33'
 
-    configure_zone(ip, OPwwn, ODevAlias, NPwwn)
+    configure_zone(sw_url, header, OPwwn, ODevAlias, NPwwn)
 
 
-
-main()
+zone()
