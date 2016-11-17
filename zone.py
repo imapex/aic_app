@@ -55,7 +55,7 @@ def configure_zone(url, myheaders, OldPwwn, OldDevAlias, NewPwwn):
                 try:
                     for zone_member in zones['TABLE_zone_member']['ROW_zone_member']:
                         try:
-                            if zone_member.get('wwn') is not None and zone_member.get('wwn') is OldPwwn:
+                            if zone_member.get('wwn') is not None and zone_member.get('wwn') == OldPwwn:
                                 pwwn = zone_member.get('wwn')
                                 zonename = zones['zone_name']
                                 vsanID = zones['zone_vsan_id']
