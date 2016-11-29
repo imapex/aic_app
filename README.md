@@ -1,10 +1,10 @@
 # Automated Infrastructure Configuration Framework v1.0
 
-Any applicable badges (build/documentation/collaboration/licenses should go here
+We are probably going to use the MIT Licenses.
 
 ## Description
 
-The Automated Infrastrucutre Configuration (AIC) Framework is a microservce based application that leverages APIs, on platformms created by Cisco Systems, to automate common infrastrucutre configuration tasks.
+The Automated Infrastructure Configuration (AIC) Framework is a microservce based application that leverages APIs, on platforms created by Cisco Systems, to automate common infrastructure configuration tasks.
 
 #  aic_app 
 
@@ -12,7 +12,7 @@ This repository contains the main application logic used to implement the northb
 
 The northbound REST API can be used for the following tasks:
 * Checking the status of the app.
-* Displaying a list of registred workflows. (At present, the only workflow that is supported is called HBA Swap.)
+* Displaying a list of registered workflows. (At present, the only workflow that is supported is called HBA Swap.)
 * Submitting workflow tasks to the application.
 * Viewing the status and parameters associated with completed workflow tasks.
 
@@ -131,7 +131,7 @@ Before submitting a new task you should gather the following information:
 
 This section will illustrate how to submit an HBA Swap task to the AIC app.
 
-The "HBA Swap" workflow accepts five paramters via a JSON encoded payload:
+The "HBA Swap" workflow accepts five parameters via a JSON encoded payload:
 
 | Paramter Name | Example | Description |
 | --- | --- | --- |
@@ -145,11 +145,11 @@ All tasks are submitted via a POST method to this URL:
 
     http://localhost:5000/aic/api/v1.0/task
 
-The POST message must contain the workflow paramaters in a JSON encoded payload. An example POST method, using the 'curl' command is shown below: 
+The POST message must contain the workflow parameters in a JSON encoded payload. An example POST method, using the 'curl' command is shown below: 
 
     curl -i -H "Content-Type: application/json" -X POST -d '{"ip_address":"127.0.0.1","selected-task":"hba_swap","task_param1":"11:11:11:11:11:11:11:11","task_param2":"OldDeviceAlias","task_param3":"33:33:33:33:33:33:33:33"}' http://localhost:5000/aic/api/v1.0/task
 
-If the task completes scussesfully you will see output similar to the example shown below:
+If the task completes successfully you will see output similar to the example shown below:
 
     HTTP/1.0 201 CREATED
     Content-Type: application/json
@@ -171,11 +171,11 @@ If the task completes scussesfully you will see output similar to the example sh
 
 ### Task Status Example
 
-This section will illustrate how to check the status of a task that was previosuly submitted to the AIC app.
+This section will illustrate how to check the status of a task that was previously submitted to the AIC app.
 
 #### Listing All Tasks
 
-You can view all of the previosly submitted tasks by using the HTTP GET method to call the 'task' URL below:
+You can view all of the previously submitted tasks by using the HTTP GET method to call the 'task' URL below:
 
     http://localhost:5000/aic/api/v1.0/task/
 
@@ -219,7 +219,7 @@ The output will be similar to the example below:
 
 #### Viewing a Specific Task
 
-As you can see in the output above, the AIC app assigns each task a uqnique task 'id'. We can use that id to check the status of an indiviual task, by appending the id to the end of the 'task' URL.
+As you can see in the output above, the AIC app assigns each task a unique task 'id'. We can use that id to check the status of an individual task, by appending the id to the end of the 'task' URL.
 
 For example, if you'd like to view the status of the task with task id '2', append '2' to the end of the 'task' URL, as seen below, and call the URL with the HTTP GET method.
 
@@ -258,5 +258,4 @@ Test coverage is poor right now.  Tests can be run by executing:
 
 # License
 
-Include any applicable licenses here as well as LICENSE.TXT in the root of the repository
-
+We are probably going to use the MIT Licenses.
