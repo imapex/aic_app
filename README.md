@@ -61,16 +61,16 @@ The latest build of this project is also available as a Docker image from Docker
 
 The application repository consists of just a few files.
 
-    | File Name | Description |
-    | --- | --- | 
-    | LICENSE | Describes the licenses the software is available under. |
-    | README.md | The repository readme file. (This file.)| 
-    | aic_api.py | Contains the majority of the Northbound API python code. | 
-    | app.py | Main application code. | 
-    | requirements.txt | Lists the required Python modules.| 
-    | tests.py | Contains the unit test python code. | 
-    | zone.py | Will contain the majority of the HBA Swap workflow logic. (Once the merge conflict is worked out.) |
-    | zone_mbonnett.py | Currently contains the majority of the HBA Swap workflow logic. (Code will be moved to zone.py in the future.)|
+| File Name | Description |
+| --- | --- | 
+| LICENSE | Describes the licenses the software is available under. |
+| README.md | The repository readme file. (This file.) | 
+| aic_api.py | Contains the majority of the Northbound API python code. | 
+| app.py | Main application code. | 
+| requirements.txt | Lists the required Python modules. | 
+| tests.py | Contains the unit test python code. | 
+| zone.py | Will contain the majority of the HBA Swap workflow logic. (Once the merge conflict is worked out.) |
+| zone_mbonnett.py | Currently contains the majority of the HBA Swap workflow logic. (Code will be moved to zone.py in the future.) |
 
 ## Installing
 
@@ -90,13 +90,13 @@ The URL path to the API is:
 
 ## REST APIs
 
-    | API | Description |
-    | --- | --- | 
-    | http://localhost:5000/aic/api/v1.0/ | This is the root of the API. |
-    | http://localhost:5000/aic/api/v1.0//workflows | Displays a list of the registered workflows.| 
-    | http://localhost:5000/aic/api/v1.0//status | Displays the status of the API. | 
-    | http://localhost:5000/aic/api/v1.0//task | Task operations.| 
-    | http://localhost:5000/aic/api/v1.0//task/x | ('x' is the task-id.) Displays the status of the task. | 
+| API | Description |
+| --- | --- | 
+| http://localhost:5000/aic/api/v1.0/ | This is the root of the API. |
+| http://localhost:5000/aic/api/v1.0//workflows | Displays a list of the registered workflows.| 
+| http://localhost:5000/aic/api/v1.0//status | Displays the status of the API. | 
+| http://localhost:5000/aic/api/v1.0//task | Task operations.| 
+| http://localhost:5000/aic/api/v1.0//task/x | ('x' is the task-id.) Displays the status of the task. | 
 
 ## Workflows
 
