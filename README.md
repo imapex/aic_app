@@ -134,6 +134,7 @@ This section will illustrate how to submit an HBA Swap task to the AIC app.
 The "HBA Swap" workflow accepts five paramters via a JSON encoded payload:
 
 | Paramter Name | Example | Description |
+| --- | --- | --- |
 | ip_address | 10.2.5.3 | IP address of the MDS Switch |
 | selected-task | hba_swap | Name of the selected task |
 | task_param1 | 11:11:11:11:11:11:11:11 | Current Physical World Wide Name |
