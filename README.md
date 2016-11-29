@@ -93,16 +93,16 @@ The URL path to the API is:
 | API | Description |
 | --- | --- | 
 | http://localhost:5000/aic/api/v1.0/ | This is the root of the API. |
-| http://localhost:5000/aic/api/v1.0//workflows | Displays a list of the registered workflows.| 
-| http://localhost:5000/aic/api/v1.0//status | Displays the status of the API. | 
-| http://localhost:5000/aic/api/v1.0//task | Task operations.| 
-| http://localhost:5000/aic/api/v1.0//task/x | ('x' is the task-id.) Displays the status of the task. | 
+| http://localhost:5000/aic/api/v1.0/workflows | Displays a list of the registered workflows.| 
+| http://localhost:5000/aic/api/v1.0/status | Displays the status of the API. | 
+| http://localhost:5000/aic/api/v1.0/task | Task operations.| 
+| http://localhost:5000/aic/api/v1.0/task/x | ('x' is the task-id.) Displays the status of the task. | 
 
 ## Workflows
 
 As of the v1.0 release, the only supported workflow is HBA Swap. 
 
-The HBA Swap workflow is used to change the PWWN on a Cisco MDS Switch after an HBA failure. An example HBA Swap workflow cam be seen [here]#example-hba-swap-task-submission.
+The HBA Swap workflow is used to change the PWWN on a Cisco MDS Switch after an HBA failure. An example HBA Swap workflow cam be seen [here]#example-hba-swap-task-submission
 
 ## API Examples
 
@@ -133,11 +133,12 @@ This section will illustrate how to submit an HBA Swap task to the AIC app.
 
 The "HBA Swap" workflow accepts five paramters via a JSON encoded payload:
 
-* ip_address - IP address of the MDS Switch
-* selected-task - 'hba_swap'
-* task_param1 - Current Physical World Wide Name
-* task_param2 - Current Device Alias
-* task_param3 - New Physical World Wide Name
+| Paramter Name | Example | Description |
+|ip_address | 10.2.5.3 | IP address of the MDS Switch |
+|selected-task | hba_swap | Name of the selected task |
+|task_param1 | 11:11:11:11:11:11:11:11 | Current Physical World Wide Name |
+|task_param2 | MDSDeviceAlias | Current Device Alias |
+|task_param3 | 33:33:33:33:33:33:33:33 | New Physical World Wide Name |
 
 All tasks are submitted via a POST method to this URL:
 
