@@ -1,11 +1,18 @@
-# boilerplate - Hello World
+# Automated Infrastructure Configuration Framework v1.0
 
 Any applicable badges (build/documentation/collaboration/licenses should go here
 
-# Description
+## Description
 
-Boilerplate is a starting point application for the IMAPEX team @ Cisco.
+The Automated Infrastrucutre Configuration (AIC) Framework is a microservce based application that leverages APIs, on platformms created by Cisco Systems, to automate common infrastrucutre configuration tasks.
 
+#  aic_app 
+
+This repository contains the main application logic used to implement the northbound REST API, as well as the logic needed to execute the desired configuration workflow.
+
+The northbound REST API is used to submit configuration tasks to the application.
+
+At present, the only configuration task that can be submitted is called HBA Swap.
 
 # Installation
 
@@ -14,74 +21,50 @@ Boilerplate is a starting point application for the IMAPEX team @ Cisco.
 Prerequisites
 
 * Python 2.7+
-* [setuptools package](https://pypi.python.org/pypi/setuptools)
+* click==6.6
+* Flask==0.11.1
+* Flask-Testing==0.6.1
+* itsdangerous==0.24
+* Jinja2==2.8
+* MarkupSafe==0.23
+* requests==2.11.1
+* Werkzeug==0.11.11
 
 ## Downloading
 
-Provide instructions for how to obtain the software from this repository, if there are multiple options - please include
-as many as possible
+You can obtain a copy of the software from this repository as follows:
 
 Option A:
 
 If you have git installed, clone the repository
 
-    git clone https://github.com/imapex/boilerplate
+    git clone https://github.com/imapex/aic_app
 
 Option B:
 
-If you don't have git, [download a zip copy of the repository](https://github.com/imapex/boilerplate/archive/master.zip)
-and extract.
+If you don't have git, [download a zip copy of the repository](https://github.com/imapex/aic_app/archive.zip) and extract.
 
 Option C:
 
 The latest build of this project is also available as a Docker image from Docker Hub
 
-    docker pull username/image:tag
+    docker pull username/aic_app:latest
 
 ## Installing
 
-Provide instructions on how to install / use the application
+The AIC Framework is pre-installed in the Docker image and will start when the aic_app container is started.
 
 # Usage
 
-Provide any relevant code samples / CLI's to leverage the code
+The application can be invoked by executing:
 
     python app.py
 
-
 # Development
 
-Provide any notes for other contributors.  This includes how to run tests / etc
-
-
-## Linting
-
-We use flake 8 to lint our code. Please keep the repository clean by running:
-
-    flake8
-
-## Testing
-
-The IMAPEX team should attempt to have unittests with  100% code coverage. An example test suite is contained
-within the tests.py file for the boilerplate application
-
-The tests are can be run in the following ways::
-
+Test coverage is poor right now.  Tests can be run by executing:
+    
     python tests.py
-
-
-When adding additional code or making changes to the project, please ensure that unit tests are added to cover the
-new functionality and that the entire test suite is run against the project before submitting the code.
-Minimal code coverage can be verified using tools such as coverage.py.
-
-For instance, after installing coverage.py, the toolkit can be run with the command::
-
-    coverage run tests.py
-
-and an HTML report of the code coverage can be generated with the command::
-
-    coverage html
-
 
 # License
 
