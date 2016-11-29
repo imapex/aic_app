@@ -6,6 +6,20 @@ We are probably going to use the MIT Licenses.
 
 The Automated Infrastructure Configuration (AIC) Framework is a microservce based application that leverages APIs, on platforms created by Cisco Systems, to automate common infrastructure configuration tasks.
 
+### Table of Contents 
+
+* [aic_app](#aic_app)
+* [Installation](#installation)
+** [Environment](#environment)
+** [Downloading](#downloading)
+** [Installing](#installing)
+* [Useage](#useage)
+** [Rest APIs](#rest-apis)
+** [Workflows](#workflows)
+** [API Examples](#api-examples)
+* [Development](#development)
+* [License](#license)
+
 #  aic_app 
 
 This repository contains the main application logic used to implement the northbound REST API, as well as the logic needed to execute the desired configuration workflow.
@@ -15,7 +29,6 @@ The northbound REST API can be used for the following tasks:
 * Displaying a list of registered workflows. (At present, the only workflow that is supported is called HBA Swap.)
 * Submitting workflow tasks to the application.
 * Viewing the status and parameters associated with completed workflow tasks.
-
 
 # Installation
 
