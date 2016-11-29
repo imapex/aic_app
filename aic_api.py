@@ -59,6 +59,8 @@ credentials = [
 tasks = [
 ]
 
+app_status = 'Up'
+
 # The fucntion below is used to route the submitted task to the correct plugin.
 # The function accepts three paramters: 
 # "ip_address", which is required. 
@@ -115,8 +117,8 @@ def call_nxapi(ip_address, payload):
     switchpassword='AICteam'
 
     url = 'http://'+ip_address+':8080/ins'
-    headers = {'content-Type': 'application/json'
-                }
+    headers = {'content-Type': 'application/json'}
+
     sys.stdout.write('DEBUG: call_nxapi(): Making NX-API Call:'+url+'\n')
     response = requests.post(url,data=json.dumps(payload), headers=headers,auth=(switchuser,switchpassword)).json()
     sys.stdout.write('DEBUG: call_nxapi(): NX-API response: '+json.dumps(response, indent=4, sort_keys=True)+'.\n')
