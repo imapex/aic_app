@@ -80,25 +80,48 @@ REST APIs:
 * /task - Task operations.
 * /task/x - ('x' is the task-id.) Displays the status of the task.
 
-## Workflow Task Example
+## Workflows
 
-Before submitting a workflow task it is usefull to have all of the information you might need, like:
+As of the v1.0 release, the only supported workflow is HBA Swap. 
+
+The HBA Swap workflow is used to change the PWWN on a Cisco MDS Switch after an HBA failure. An example HBA Swap workflow cam be seen [here]#example-hba-swap-task-submission.
+
+## API Examples
+
+### Status Example
+
+You can check the status of the application by accessing the 'status' API at this URL:
+
+    http://localhost:5000/aic/api/v1.0/status
+
+If the application is running, you will see the following output:
+
+    {
+    "Status": "Up"
+    }
+
+### Task Example
+
+Before submitting a new task you should gather the following information:
 
 * IP Address of the device
-* Username and Password Credentials of the device
-* Name of the AIC workflow you plane to execute
-* Any additional parameters needed by the workflow 
+* Device authentication credentials (As of the v1.0 release credentials are hard coded.)
+* Name of the AIC workflow you plan to execute
+* Any additional parameters needed by the AIC workflow 
 
-### Example HBA Swap Workflow Task Submission
+#### Example HBA Swap Task Submission
+
+This section will illustrate how to submit an HBA Swap task to the AIC app.
 
 The "HBA Swap" workflow accepts five paramters via a JSON encoded payload:
+
 * ip_address - IP address of the MDS Switch
 * selected-task - 'hba_swap'
-* task_param1 - This is the Current Physical World Wide Name
-* task_param2 - This is the Current Device Alias
-* task_param3 - This will be the new Physical World Wide Name
+* task_param1 - Current Physical World Wide Name
+* task_param2 - Current Device Alias
+* task_param3 - New Physical World Wide Name
 
-To submit a HBA Swap workflow via AIC's REST API, you will need to send an HTTP POST message to this URL:
+All tasks are submitted via a POST method to this URL:
 
     http://localhost:5000/aic/api/v1.0/task
 
@@ -106,7 +129,7 @@ The POST message must contain the workflow paramaters in a JSON encoded payload.
 
     curl -i -H "Content-Type: application/json" -X POST -d '{"ip_address":"x.x.x.x","selected-task":"hba_swap","task_param1":"11:11:11:11:11:11:11:11","task_param2":"OldDeviceAlias","task_param3":"33:33:33:33:33:33:33:33"}' http://localhost:5000/aic/api/v1.0/task
 
-If the task completes scussesfully you should see output similar to the example below:
+If the task completes scussesfully you will see output similar to the example shown below:
 
     HTTP/1.0 201 CREATED
     Content-Type: application/json
@@ -125,7 +148,6 @@ If the task completes scussesfully you should see output similar to the example 
         "task-parameter3": "33:33:33:33:33:33:33:33"
         }
     }
-
 
 # Development
 
