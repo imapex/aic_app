@@ -118,7 +118,7 @@ If the application is running, you will see the following output:
     "Status": "Up"
     }
 
-### Task Example
+### Task Submission Example
 
 Before submitting a new task you should gather the following information:
 
@@ -147,7 +147,7 @@ All tasks are submitted via a POST method to this URL:
 
 The POST message must contain the workflow paramaters in a JSON encoded payload. An example POST method, using the 'curl' command is shown below: 
 
-    curl -i -H "Content-Type: application/json" -X POST -d '{"ip_address":"x.x.x.x","selected-task":"hba_swap","task_param1":"11:11:11:11:11:11:11:11","task_param2":"OldDeviceAlias","task_param3":"33:33:33:33:33:33:33:33"}' http://localhost:5000/aic/api/v1.0/task
+    curl -i -H "Content-Type: application/json" -X POST -d '{"ip_address":"127.0.0.1","selected-task":"hba_swap","task_param1":"11:11:11:11:11:11:11:11","task_param2":"OldDeviceAlias","task_param3":"33:33:33:33:33:33:33:33"}' http://localhost:5000/aic/api/v1.0/task
 
 If the task completes scussesfully you will see output similar to the example shown below:
 
@@ -168,6 +168,87 @@ If the task completes scussesfully you will see output similar to the example sh
         "task-parameter3": "33:33:33:33:33:33:33:33"
         }
     }
+
+### Task Status Example
+
+This section will illustrate how to check the status of a task that was previosuly submitted to the AIC app.
+
+#### Listing All Tasks
+
+You can view all of the previosly submitted tasks by using the HTTP GET method to call the 'task' URL below:
+
+    http://localhost:5000/aic/api/v1.0/task/
+
+An example GET method, using the 'curl' command is shown below: 
+
+    curl -i -H "Content-Type: application/json" -X GET http://127.0.0.1:5000/aic/api/v1.0/task
+
+The output will be similar to the example below:
+
+    {
+      "task": [
+        {
+          "done": true, 
+          "id": 1, 
+          "ip_address": "172.22.163.35", 
+          "selected-task": "hba_swap", 
+          "task-parameter1": "11:11:11:11:11:11:11:11", 
+          "task-parameter2": "OldDeviceAlias", 
+          "task-parameter3": "33:33:33:33:33:33:33:33"
+        }, 
+        {
+          "done": true, 
+          "id": 2, 
+          "ip_address": "172.22.163.36", 
+          "selected-task": "hba_swap", 
+          "task-parameter1": "11:11:11:11:11:11:11:11", 
+          "task-parameter2": "OldDeviceAlias", 
+          "task-parameter3": "33:33:33:33:33:33:33:33"
+        }, 
+        {
+          "done": true, 
+          "id": 3, 
+          "ip_address": "172.22.163.37", 
+          "selected-task": "hba_swap", 
+          "task-parameter1": "11:11:11:11:11:11:11:11", 
+          "task-parameter2": "OldDeviceAlias", 
+          "task-parameter3": "33:33:33:33:33:33:33:33"
+        }
+      ]
+    }
+
+#### Viewing a Specific Task
+
+As you can see in the output above, the AIC app assigns each task a uqnique task 'id'. We can use that id to check the status of an indiviual task, by appending the id to the end of the 'task' URL.
+
+For example, if you'd like to view the status of the task with task id '2', append '2' to the end of the 'task' URL, as seen below, and call the URL with the HTTP GET method.
+
+    http://localhost:5000/aic/api/v1.0/task/2
+
+An example GET method, using the 'curl' command is shown below: 
+
+    curl -i -H "Content-Type: application/json" -X GET http://127.0.0.1:5000/aic/api/v1.0/task/2
+
+The output will be similar to the example below:
+
+    HTTP/1.0 200 OK
+    Content-Type: application/json
+    Content-Length: 265
+    Server: Werkzeug/0.11.11 Python/2.7.12
+    Date: Tue, 29 Nov 2016 21:36:32 GMT
+
+    {
+      "task": {
+        "done": true, 
+        "id": 2, 
+        "ip_address": "172.22.163.36", 
+        "selected-task": "hba_swap", 
+        "task-parameter1": "11:11:11:11:11:11:11:11", 
+        "task-parameter2": "OldDeviceAlias", 
+        "task-parameter3": "33:33:33:33:33:33:33:33"
+      }
+    }
+
 
 # Development
 
