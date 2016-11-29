@@ -104,7 +104,7 @@ As of the v1.0 release, the only supported workflow is HBA Swap.
 
 | Name | Description |
 | --- | --- | 
-| HBA Swap | Used to change the PWWN on a Cisco MDS Switch after an HBA failure. An example HBA Swap workflow cam be seen [here](#example-hba-swap-task-submission) |
+| HBA Swap | Changes the PWWN on a Cisco MDS Switch after an HBA failure. [Example below.](#example-hba-swap-task-submission) |
 
 ## API Examples
 
