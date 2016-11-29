@@ -90,13 +90,13 @@ The URL path to the API is:
 
 ## REST APIs
 
-| API | Description |
-| --- | --- | 
-| http://localhost:5000/aic/api/v1.0/ | This is the root of the API. |
-| http://localhost:5000/aic/api/v1.0/workflows | Displays a list of the registered workflows.| 
-| http://localhost:5000/aic/api/v1.0/status | Displays the status of the API. | 
-| http://localhost:5000/aic/api/v1.0/task | Task operations.| 
-| http://localhost:5000/aic/api/v1.0/task/x | ('x' is the task-id.) Displays the status of the task. | 
+| API | Description | Supported Methods |
+| --- | --- | --- |
+| http://localhost:5000/aic/api/v1.0/ | This is the root of the API. | GET
+| http://localhost:5000/aic/api/v1.0/workflows | Displays a list of the registered workflows.| GET |
+| http://localhost:5000/aic/api/v1.0/status | Displays the status of the API. | GET |
+| http://localhost:5000/aic/api/v1.0/task | Task operations.| GET, POST |
+| http://localhost:5000/aic/api/v1.0/task/x | ('x' is the task-id.) Displays the status of the task. | GET |
 
 ## Workflows
 
