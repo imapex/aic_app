@@ -162,7 +162,7 @@ def get_api_plugins_list():
 
 @app.route('/aic/api/v1.0/task', methods=['GET'])
 def get_api_tasks():
-    return jsonify({'task': task})
+    return jsonify({'task': tasks})
 
 # The function below is used to submit a task to the AIC v1.0 API. 
 # The function expects a JSON payload that contains, at a minum, the "ip_address"
