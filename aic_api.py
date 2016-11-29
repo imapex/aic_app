@@ -17,20 +17,20 @@ app = Flask(__name__)
 api_methods = {
     '/' : 'Your current location.',
     '/status'  : 'Displays the status of the API.',
-    '/plugins' : 'Displays a list of the registered plug-ins.',
+    '/workflows' : 'Displays a list of the registered workflows.',
     '/task' : 'Task operations. '
 }
 
-# The dictionrary below, named "registred_plugins", is used to list
-# all of the available plugins within the AIC Framework. 
+# The dictionrary below, named "registred_workflow", is used to list
+# all of the available workflows within the AIC Framework. 
 # Future devlopers should consider developing a framework for registering 
-# additional plugins.
+# additional workflow.
 # 
-# The "hba_swap" plugin is used to execute the HBA Sawp Workflow.
-# The "nxapi" plugin is used primalry to test the NX-API.
-# In the intial release of the AIC Framework, only the "hba_swap" plugin will be used.
+# The "hba_swap" workflow is used to execute an HBA Swap on a Cisco MDS Switch.
+# The "nxapi" workflow is used primalry to test the NX-API.
+# In the intial release of the AIC Framework, only the "hba_swap" workflow will be used.
 
-registered_plugins = {
+registered_workflows = {
     'hba_swap' : 'HBA Swap is used to run the HBA Swap Workflow',
     'nxapi'   : 'Shim for NX-API tetsing.'
 }
@@ -148,13 +148,13 @@ def get_api_root():
 def get_api_status():
     return jsonify(Status=app_status)
 
-# The function below is used to list the plugins avialble in the AIC v1.0 API. 
+# The function below is used to list the workflows avialble in the AIC v1.0 API. 
 # When called via a GET method, it returns a JSON payload that contains 
-# the "registered_plugins" dictionary variable.
+# the "registered_workflows" dictionary variable.
 
-@app.route('/aic/api/v1.0/plugins', methods=['GET'])
+@app.route('/aic/api/v1.0/workflows', methods=['GET'])
 def get_api_plugins_list():
-    return jsonify(registered_plugins)
+    return jsonify(registered_workflows)
 
 # The function below is used to list the tasks submitted to the AIC v1.0 API. 
 # When called via a GET method, it returns a JSON payload that contains 
@@ -162,7 +162,7 @@ def get_api_plugins_list():
 
 @app.route('/aic/api/v1.0/task', methods=['GET'])
 def get_api_tasks():
-    return jsonify({'task': task})
+    return jsonify({'task': tasks})
 
 # The function below is used to submit a task to the AIC v1.0 API. 
 # The function expects a JSON payload that contains, at a minum, the "ip_address"
