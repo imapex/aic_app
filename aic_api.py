@@ -3,10 +3,11 @@ from flask import jsonify
 from flask import make_response
 from flask import abort
 from flask import request
-import requests
-import json
 import uuid
 import sys
+import requests
+import json
+import zone_bonnett
 
 app = Flask(__name__)
 
@@ -50,55 +51,49 @@ credentials = [
 # that have been submitted to the API.
 #
 # The array is initilized below with no data.  The array will contain dictonaries,
-# each of which will contain keys named: "id", "ip_address", "selected_plugin", and 
-# "done". 
+# each of which will contain keys named: "id", "ip_address", "selected_task",  
+# and "done". The dictonaires may also include other keys named:
+# "task-parameter1", "task-parameter2", and "task-parameter3". These addiotnal keys
+# are used to store data associated with the selected plugin.
 
 tasks = [
 ]
 
 # The fucntion below is used to route the submitted task to the correct plugin.
-# The function takes two paramters: "plugin" and "ip_address".
+# The function accepts three paramters: 
+# "ip_address", which is required. 
+# "plugin", which is optional. Defaults to None.
+# "*other_params", also optional. Used to pass additional values to the selected plugin. 
 #
-# As of 11-16-16 the "plugin" parameter must be either: "hba_swap" or "nxapi".
 # For now, the code includes DEBUG output that is written to stdout. 
 
-def call_selected_plugin(plugin, ip_address):
-    sys.stdout.write('DEBUG: call_selected_plugin(): Plugin requested is "'+plugin+'".\n')
-    if plugin == 'hba_swap':
-        sys.stdout.write('DEBUG: call_selected_plugin(): Calling hba_swap().\n')
-        hba_swap(ip_address)
+def call_selected_plugin(ip_address, plugin=None, *other_params):
+    sys.stdout.write('DEBUG: call_selected_plugin(): Begin function execution.\n')
+    if plugin is None:
+        sys.stdout.write('DEBUG: call_selected_plugin(): No plugin selected.\n')
     else:
-        sys.stdout.write('DEBUG: call_selected_plugin(): Calling call_nxaip().\n')
-        call_nxapi(ip_address)
+        if plugin == 'hba_swap':
+            sys.stdout.write('DEBUG: call_selected_plugin(): Calling hba_swap().\n')
+            hba_swap(ip_address, other_params[0], other_params[1], other_params[2])
+        else:
+            sys.stdout.write('DEBUG: call_selected_plugin(): Calling call_nxaip().\n')
+            call_nxapi(ip_address, payload)
     return 
 
 # The function below named "hba_swap" is used to invoke thet HBA SWAP workflow. 
-# This function will likley be removed or refactored to call Dan's code in 
-# the "zone.py" file.
+# It calls the configure_zone() function from the zone.py file. The hba_swap() fucntion
+# passes the "ipaddress", "OldPwnn", "OldDevAlias", and "NewPwwn" paramters to configure_zone().
 #
 # This function includes DEBUG output that is written to stdout.
-# The "payload" dictionary variable , defined in the fucntion below, includes the 
-# various parameters needed to submit a valid request to the NX-API.
-# 
-# The fucntion also calls the "call_nxapi" fucntion with the "ipaddress" and "payload" 
-# variables.
 
-def hba_swap(ipaddress):
+def hba_swap(ipaddress, OldPwwn, OldDevAlias, NewPwwn):
     sys.stdout.write('DEBUG: hba_swap(): Executing "hba_swap" plugin.\n')
-
-    payload={
-        "ins_api": {
-        "version": "1.2",
-        "type": "cli_show",
-        "chunk": "0",
-        "sid": "1",
-        "input": "show zoneset active vsan 10",
-        "output_format": "json"
-        }
-    }
-
-    sys.stdout.write('DEBUG: hba_swap(): Calling call_nxapi().\n')
-    call_nxapi(ipaddress, payload)
+    sys.stdout.write('DEBUG: hba_swap(): IP address is: '+ipaddress+'\n')
+    sys.stdout.write('DEBUG: hba_swap(): OldPwwn is: '+OldPwwn+'\n')
+    sys.stdout.write('DEBUG: hba_swap(): OldDevAlias is: '+OldDevAlias+'\n')
+    sys.stdout.write('DEBUG: hba_swap(): NewPwwn is: '+NewPwwn+'\n')
+    sys.stdout.write('DEBUG: hba_swap(): Calling zone.configure_zone().\n')
+    zone_bonnett.configure_zone(ipaddress, OldPwwn, OldDevAlias, NewPwwn)
     return
 
 # The function below, named "call_nxapi", is used to access the NX-API. 
@@ -168,17 +163,18 @@ def get_api_tasks():
     return jsonify({'task': task})
 
 # The function below is used to submit a task to the AIC v1.0 API. 
-# The function expects a JSON payload that contains, at a minum, the "ip_address" and 
-# "selected-task" parameters.
+# The function expects a JSON payload that contains, at a minum, the "ip_address"
+# parameter. Optional parameters include "selected-task", "task-param1",
+# "task-param2", and "task-param3".
 # The fucntion is invoked via the POST method. 
 
 @app.route('/aic/api/v1.0/task', methods=['POST'])
 def create_task():
-    # Ensure both "ip_address" and "selected-taks" parameters are included in the JSON
+    # Ensure, at a minimum, the "ip_address" parameter is included in the JSON
     # payload. If not, abort the transcation and return an HTTP 400 error message.
-    if not request.json or not 'ip_address' or not 'selected-task' in request.json:
+    if not request.json or not 'ip_address' in request.json:
         abort(400)
-    # The "if" code below is used to set the "task_id" variable.
+    # The "if" code below is used to assign a value to the "task_id" variable.
     if tasks:
         # If tasks exist in the "task" array, incremnet the highest id by one 
         # and assign the new value to "task_id" variable.
@@ -188,24 +184,57 @@ def create_task():
         # "task_id" variable.
         task_id = 1
     # Define the "task" dictionary.
-    task = {
+    if not request.json.get('selected-task'):
+        task = {
+        'id': task_id,
+        'ip_address': request.json['ip_address'],
+        'done': True
+        }
+    else:
+        task = {
         'id': task_id,
         'ip_address': request.json['ip_address'],
         'selected-task': request.json.get('selected-task'),
+        # I was thinking that having a catch-all parameter for generic json payloads may
+        # be usefull.  This idea hasn't been implemented yet.
+        # 'generic_json_payload': request.json.get('generic_json_payload'),
+        'task-parameter1': request.json.get('task_param1'),
+        'task-parameter2': request.json.get('task_param2'),
+        'task-parameter3': request.json.get('task_param3'),
         'done': False
-    }
+        }
     # Append the new "task" dictionary to the "tasks" array.
     tasks.append(task)
     # Write DEBUG output to stdout.
     sys.stdout.write('DEBUG: create_task(): Added task id: '+str(task_id)+' to tasks array.\n')
-    sys.stdout.write('DEBUG: create_task(): Requested plugin is: '+task['selected-task']+' \n')
+    # The "if" conditional below checks for the prescence of the 'selected-task' paramter.
+    # If it doesn't exist the Debug ouput will print as much.
+    # If it does exist the "else" conditional will print the value of the selected task.
+    if not request.json.get('selected-task'):
+        sys.stdout.write('DEBUG: create_task(): No plugin was requested. \n')
+    else:
+        sys.stdout.write('DEBUG: create_task(): Requested plugin is: '+task['selected-task']+' \n')
     sys.stdout.write('DEBUG: create_task(): Host IP Address is: '+task['ip_address']+' \n')
-    sys.stdout.write('DEBUG: create_task(): Passing plugin and IP address to call_selected_plugin().\n')
+    # The "if" conditional below checks for the prescence of the 'task-parameters'.
+    # If they do exist the the code will print the values of the paramaters.
+    # If they doesn't exist the "else" conditional will print as much.
+    if request.json.get('plugin_param1') or request.json.get('plugin_param2') or request.json.get('plugin_param3'):
+        sys.stdout.write('DEBUG: create_task(): Plugin parameter 1 is: '+task['task-parameter1']+' \n')
+        sys.stdout.write('DEBUG: create_task(): Plugin parameter 2 is: '+task['task-parameter2']+' \n')
+        sys.stdout.write('DEBUG: create_task(): Plugin parameter 3 is: '+task['task-parameter3']+' \n')
+    else:
+        sys.stdout.write('DEBUG: create_task(): No optional Plugin parameters submitted. \n')
+    sys.stdout.write('DEBUG: create_task(): Passing IP address, plugin name, and plugin paramters (if they exist) to call_selected_plugin().\n')
     # Invoke the "call_selected_plugin()" function and pass the 
-    # "selected-task" and "ip_address" parameters to the function.
-    call_selected_plugin(task['selected-task'], task['ip_address'])
+    # appropriate mandatory and, if needed, the optional parameters to the function.
+    if not request.json.get('selected-task'):
+        call_selected_plugin(task['ip_address'])
+    else:
+        call_selected_plugin(task['ip_address'], task['selected-task'], task['task-parameter1'], task['task-parameter2'], task['task-parameter3'])
     # Set the "done" parameter in the "task" dictionary to True.
     task['done'] = True
+    # Currently, the function only return a 201 (Created, HTTP Response).
+    # This shoud be addressed in teh future.
     # Return a JSON representation of the "task" dictionary. This will include an 
     # HTTP response of 201. 
     return jsonify({'task': task}), 201
