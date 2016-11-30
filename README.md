@@ -12,7 +12,7 @@ The Automated Infrastructure Configuration (AIC) Framework is a microservce base
 * [Installation](#installation)
   * [Environment](#environment)
   * [Downloading](#downloading)
-  * [Installing](#installing)
+  * [Install](#installing)
 * [Usage](#usage)
   * [Rest APIs](#rest-apis)
   * [Workflows](#workflows)
@@ -85,11 +85,40 @@ The application repository consists of just a few files.
 | zone.py | Will contain the majority of the HBA Swap workflow logic. (Once the merge conflict is worked out.) |
 | zone_mbonnett.py | Currently contains the majority of the HBA Swap workflow logic. (Code will be moved to zone.py in the future.) |
 
-## Installing
+## Install
 
-The AIC Framework is pre-installed in the Docker image and will start when the aic_app container is started.
+This application can be installed locally on your server, or by using Docker (preferred).
 
-If you've cloned the git repository, the application can be invoked by executing:
+In either case, the application requires certian enviormental variables be present:
+
+* AIC_USER - Username on MDS Switch
+* AIC_PASSWORD - Password on MDS Switch
+
+### Docker Install 
+
+This section is a work in progress...
+
+The AIC application is pre-installed in the Docker image and will start when the aic_app container is started. 
+
+### Local Install
+
+If you haven't already cloned the repo, do so now:
+
+    git clone https://github.com/imapex/aic_app
+
+Create Virtual Enviorment and install dependencies:
+
+    cd aic_app
+    virtualenv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+
+Set the required enviroment variables:
+
+    export AIC_USER=<your-username-here>
+    export AIC_PASSWORD=<your-password-here>
+
+Start the application:
 
     python app.py
 
