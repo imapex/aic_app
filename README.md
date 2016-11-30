@@ -1,10 +1,6 @@
-# Automated Infrastructure Configuration Framework v1.0
+# Automated Infrastructure Configuration
 
-We are probably going to use the MIT Licenses.
-
-## Description
-
-The Automated Infrastructure Configuration (AIC) Framework is a microservce based application that leverages APIs, on platforms created by Cisco Systems, to automate common infrastructure configuration tasks.
+The Automated Infrastructure Configuration (AIC) application is a microservce based application that leverages APIs, on platforms created by Cisco Systems, to automate common infrastructure configuration tasks.
 
 ### Table of Contents 
 
@@ -12,7 +8,7 @@ The Automated Infrastructure Configuration (AIC) Framework is a microservce base
 * [Installation](#installation)
   * [Environment](#environment)
   * [Downloading](#downloading)
-  * [Installing](#installing)
+  * [Install](#installing)
 * [Usage](#usage)
   * [Rest APIs](#rest-apis)
   * [Workflows](#workflows)
@@ -22,7 +18,7 @@ The Automated Infrastructure Configuration (AIC) Framework is a microservce base
 
 #  aic_app 
 
-This repository contains the main application logic used to implement the northbound REST API, as well as the logic needed to execute the desired configuration workflow.
+This repository contains the main application logic used to implement AIC's northbound REST API, as well as the logic needed to execute the desired configuration workflow.
 
 The northbound REST API can be used for the following tasks:
 * Checking the status of the app.
@@ -56,23 +52,17 @@ You can obtain a copy of the software from this repository as follows:
 
 Option A:
 
-If you have git installed, clone the repository
+If you have git installed, clone the repository:
 
     git clone https://github.com/imapex/aic_app
 
 Option B:
 
-If you don't have git, [download a zip copy of the repository](https://github.com/imapex/aic_app/archive.zip) and extract.
-
-Option C:
-
-The latest build of this project is also available as a Docker image from Docker Hub
+The latest build of this project is also available as a Docker image from Docker Hub:
 
     docker pull username/aic_app:latest
 
-### Repository file contents
-
-The application repository consists of just a few files.
+### Repository File Contents
 
 | File Name | Description |
 | --- | --- | 
@@ -85,11 +75,40 @@ The application repository consists of just a few files.
 | zone.py | Will contain the majority of the HBA Swap workflow logic. (Once the merge conflict is worked out.) |
 | zone_mbonnett.py | Currently contains the majority of the HBA Swap workflow logic. (Code will be moved to zone.py in the future.) |
 
-## Installing
+## Install
 
-The AIC Framework is pre-installed in the Docker image and will start when the aic_app container is started.
+This application can be installed locally on your server, or by using Docker (preferred).
 
-If you've cloned the git repository, the application can be invoked by executing:
+In either case, the application requires certian enviormental variables be present:
+
+* AIC_USER - Username on MDS Switch
+* AIC_PASSWORD - Password on MDS Switch
+
+### Docker Install 
+
+This section is a work in progress...
+
+The AIC application is pre-installed in the Docker image and will start when the aic_app container is started. 
+
+### Local Install
+
+If you haven't already cloned the repo, do so now:
+
+    git clone https://github.com/imapex/aic_app
+
+Create Virtual Environment and install dependencies:
+
+    cd aic_app
+    virtualenv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+
+Set the required environment variables:
+
+    export AIC_USER=<your-username-here>
+    export AIC_PASSWORD=<your-password-here>
+
+Start the application:
 
     python app.py
 
@@ -148,7 +167,7 @@ This section will illustrate how to submit an HBA Swap task to the AIC app.
 
 The "HBA Swap" workflow accepts five parameters via a JSON encoded payload:
 
-| Paramter Name | Example | Description |
+| Parameter Name | Example | Description |
 | --- | --- | --- |
 | ip_address | 10.2.5.3 | IP address of the MDS Switch |
 | selected-task | hba_swap | Name of the selected task |
@@ -273,4 +292,4 @@ Test coverage is poor right now.  Tests can be run by executing:
 
 # License
 
-We are probably going to use the MIT Licenses.
+This AIC app is licensed under the MIT License.
