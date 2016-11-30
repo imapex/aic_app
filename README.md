@@ -56,17 +56,13 @@ You can obtain a copy of the software from this repository as follows:
 
 Option A:
 
-If you have git installed, clone the repository
+If you have git installed, clone the repository:
 
     git clone https://github.com/imapex/aic_app
 
 Option B:
 
-If you don't have git, [download a zip copy of the repository](https://github.com/imapex/aic_app/archive.zip) and extract.
-
-Option C:
-
-The latest build of this project is also available as a Docker image from Docker Hub
+The latest build of this project is also available as a Docker image from Docker Hub:
 
     docker pull username/aic_app:latest
 
