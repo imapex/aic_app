@@ -1,6 +1,7 @@
 import requests
 import json
 import sys
+import os
 
 # Note for testing - you can remove the 33:33:33:33:33:33:33:33 zone member from the MDS switch using
 #
@@ -9,9 +10,14 @@ import sys
 #    no member pwwn 33:33:33:33:33:33:33:33
 #    zoneset activate name IMzoneset vsan 10
 
-# Credentials for switch - need to encrypt these
-username = "danwms"
-password = "AICteam"
+# Credentials for the MDS Switch
+# Credentials are set as local Enviorment Variables.
+#
+# If we get around to accepting the credentials via an API, 
+# we should figure out a way to encrypt the credentials.
+
+username = os.getenv("AIC_USER")
+password = os.getenv("AIC_PASSWORD")
 
 # The update_zone() function below, adds tthe NewPwwn to the zone where we found the OldPwwn.
 
