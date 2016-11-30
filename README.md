@@ -1,4 +1,4 @@
-# Automated Infrastructure Configuration v1.0
+# Automated Infrastructure Configuration
 
 The Automated Infrastructure Configuration (AIC) application is a microservce based application that leverages APIs, on platforms created by Cisco Systems, to automate common infrastructure configuration tasks.
 
@@ -18,7 +18,7 @@ The Automated Infrastructure Configuration (AIC) application is a microservce ba
 
 #  aic_app 
 
-This repository contains the main application logic used to implement the northbound REST API, as well as the logic needed to execute the desired configuration workflow.
+This repository contains the main application logic used to implement AIC's northbound REST API, as well as the logic needed to execute the desired configuration workflow.
 
 The northbound REST API can be used for the following tasks:
 * Checking the status of the app.
@@ -62,9 +62,7 @@ The latest build of this project is also available as a Docker image from Docker
 
     docker pull username/aic_app:latest
 
-### Repository file contents
-
-The application repository consists of just a few files.
+### Repository File Contents
 
 | File Name | Description |
 | --- | --- | 
@@ -98,14 +96,14 @@ If you haven't already cloned the repo, do so now:
 
     git clone https://github.com/imapex/aic_app
 
-Create Virtual Enviorment and install dependencies:
+Create Virtual Environment and install dependencies:
 
     cd aic_app
     virtualenv venv
     source venv/bin/activate
     pip install -r requirements.txt
 
-Set the required enviroment variables:
+Set the required environment variables:
 
     export AIC_USER=<your-username-here>
     export AIC_PASSWORD=<your-password-here>
@@ -169,7 +167,7 @@ This section will illustrate how to submit an HBA Swap task to the AIC app.
 
 The "HBA Swap" workflow accepts five parameters via a JSON encoded payload:
 
-| Paramter Name | Example | Description |
+| Parameter Name | Example | Description |
 | --- | --- | --- |
 | ip_address | 10.2.5.3 | IP address of the MDS Switch |
 | selected-task | hba_swap | Name of the selected task |
