@@ -292,4 +292,4 @@ Test coverage is poor right now.  Tests can be run by executing:
 
 # License
 
-This AIC app is licensed under the MIT Licenses.
+This AIC app is licensed under the MIT License.
