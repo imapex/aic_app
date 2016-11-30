@@ -1,10 +1,6 @@
-# Automated Infrastructure Configuration Framework v1.0
+# Automated Infrastructure Configuration v1.0
 
-We are probably going to use the MIT Licenses.
-
-## Description
-
-The Automated Infrastructure Configuration (AIC) Framework is a microservce based application that leverages APIs, on platforms created by Cisco Systems, to automate common infrastructure configuration tasks.
+The Automated Infrastructure Configuration (AIC) application is a microservce based application that leverages APIs, on platforms created by Cisco Systems, to automate common infrastructure configuration tasks.
 
 ### Table of Contents 
 
@@ -298,4 +294,4 @@ Test coverage is poor right now.  Tests can be run by executing:
 
 # License
 
-We are probably going to use the MIT Licenses.
+This AIC app is licensed under the MIT Licenses.
