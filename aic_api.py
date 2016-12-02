@@ -11,14 +11,20 @@ import zone_bonnett
 
 app = Flask(__name__)
 
+
+# The variable below, name "api_url_path", defines the root of the 
+# AIC app's API URL Path
+
+api_url_path = '/aic/api/v1.0/'
+
 # The dictionary below, named "api_methods", lists the various URL paths that are
 # available in the Flask API.
 
 api_methods = {
-    '/' : 'Your current location.',
-    '/status'  : 'Displays the status of the API.',
-    '/workflows' : 'Displays a list of the registered workflows.',
-    '/task' : 'Task operations. '
+    api_url_path : 'Your current location.',
+    api_url_path+'status'  : 'Displays the status of the API.',
+    api_url_path+'workflows' : 'Displays a list of the registered workflows.',
+    api_url_path+'task' : 'Task operations. '
 }
 
 # The dictionrary below, named "registred_workflow", is used to list
@@ -137,14 +143,14 @@ def get_http_root():
 # The function below is the root of the AIC v1.0 API. When called via a GET method,
 # it returns a JSON payload of the "api_methods" dictionary variable.
 
-@app.route('/aic/api/v1.0/', methods=['GET'])
+@app.route(api_url_path, methods=['GET'])
 def get_api_root():
     return jsonify(api_methods)
 
 # The function below is used to check the status of AIC v1.0 API. When called via a 
 # GET method, it returns a JSON payload that contains the "app_status" variable.
 
-@app.route('/aic/api/v1.0/status', methods=['GET'])
+@app.route(api_url_path+'status', methods=['GET'])
 def get_api_status():
     return jsonify(Status=app_status)
 
@@ -152,7 +158,7 @@ def get_api_status():
 # When called via a GET method, it returns a JSON payload that contains 
 # the "registered_workflows" dictionary variable.
 
-@app.route('/aic/api/v1.0/workflows', methods=['GET'])
+@app.route(api_url_path+'workflows', methods=['GET'])
 def get_api_plugins_list():
     return jsonify(registered_workflows)
 
@@ -160,7 +166,7 @@ def get_api_plugins_list():
 # When called via a GET method, it returns a JSON payload that contains 
 # the "tasks" array variable.
 
-@app.route('/aic/api/v1.0/task', methods=['GET'])
+@app.route(api_url_path+'task', methods=['GET'])
 def get_api_tasks():
     return jsonify({'task': tasks})
 
@@ -170,7 +176,7 @@ def get_api_tasks():
 # "task-param2", and "task-param3".
 # The fucntion is invoked via the POST method. 
 
-@app.route('/aic/api/v1.0/task', methods=['POST'])
+@app.route(api_url_path+'task', methods=['POST'])
 def create_task():
     # Ensure, at a minimum, the "ip_address" parameter is included in the JSON
     # payload. If not, abort the transcation and return an HTTP 400 error message.
@@ -245,7 +251,7 @@ def create_task():
 # v1.0 API. 
 # The fucntion is invoked via the GET method.
 
-@app.route('/aic/api/v1.0/task/<int:task_id>', methods=['GET'])
+@app.route(api_url_path+'task/<int:task_id>', methods=['GET'])
 def get_task(task_id):
     # Walk the "tasks" array to find the dictionary where "task_id" (which is provided
     # in the URL) is equal to the "id" stored in the dictionary.
@@ -256,7 +262,7 @@ def get_task(task_id):
     # When a match is found, retun a JSON representation of the found "task".
     return jsonify({'task': task[0]})
 
-@app.route('/aic/api/v1.0/plugins/nx-api', methods=['POST'])
+@app.route(api_url_path+'nx-api', methods=['POST'])
 def post_api_plugins_nxapi():
     return jsonify()
 
