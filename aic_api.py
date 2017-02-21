@@ -7,7 +7,7 @@ import uuid
 import sys
 import requests
 import json
-import zone_bonnett
+import zone
 
 app = Flask(__name__)
 
@@ -95,7 +95,7 @@ def hba_swap(ipaddress, OldPwwn, OldDevAlias, NewPwwn):
     sys.stdout.write('DEBUG: hba_swap(): OldDevAlias is: '+OldDevAlias+'\n')
     sys.stdout.write('DEBUG: hba_swap(): NewPwwn is: '+NewPwwn+'\n')
     sys.stdout.write('DEBUG: hba_swap(): Calling zone.configure_zone().\n')
-    zone_bonnett.configure_zone(ipaddress, OldPwwn, OldDevAlias, NewPwwn)
+    zone.configure_zone(ipaddress, OldPwwn, OldDevAlias, NewPwwn)
     return
 
 # The function below, named "call_nxapi", is used to access the NX-API. 
