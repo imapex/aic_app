@@ -60,7 +60,7 @@ Option B:
 
 The latest build of this project is also available as a Docker image from Docker Hub:
 
-    docker pull /imapex/aic_app:latest
+    docker pull michaelbonnettjr/aic_app:latest
 
 ### Repository File Contents
 
@@ -86,13 +86,11 @@ In either case, the application requires certian enviormental variables be prese
 
 ### Docker Install 
 
-This section is a work in progress...
-
 The AIC application is pre-installed in the Docker image and will start when the aic_app container is started. 
 
 Start the aic_app Docker container:
 
-    docker run -p 127.0.0.1:5000:5000 -e AIC_USER=<your-username-here> -e AIC_PASSWORD=<your-password-here> imapex/aic_app
+    docker run -p 127.0.0.1:5000:5000 -e AIC_USER=<your-username-here> -e AIC_PASSWORD=<your-password-here> michaelbonnettjr/aic_app
 
 The -p flag in the "docker run" command expsoes the AIC REST API on port 5000 of the localhost.  The -e flag is used to set the enviormental variables.
 
