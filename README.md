@@ -92,7 +92,7 @@ The AIC application is pre-installed in the Docker image and will start when the
 
 Start the aic_app Docker container:
 
-  docker run -p 127.0.0.1:5000:5000 -e AIC_USER=<your-username-here> -e AIC_PASSWORD=<your-password-here> imapex/aic_app
+    docker run -p 127.0.0.1:5000:5000 -e AIC_USER=<your-username-here> -e AIC_PASSWORD=<your-password-here> imapex/aic_app
 
 The -p flag in the "docker run" command expsoes the AIC REST API on port 5000 of the localhost.  The -e flag is used to set the enviormental variables.
 
