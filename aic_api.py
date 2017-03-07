@@ -226,7 +226,7 @@ def create_task():
     # The "if" conditional below checks for the prescence of the 'task-parameters'.
     # If they do exist the the code will print the values of the paramaters.
     # If they doesn't exist the "else" conditional will print as much.
-    if request.json.get('plugin_param1') or request.json.get('plugin_param2') or request.json.get('plugin_param3'):
+    if not request.json.get('plugin_param1') or request.json.get('plugin_param2') or request.json.get('plugin_param3'):
         sys.stdout.write('DEBUG: create_task(): Plugin parameter 1 is: '+task['task-parameter1']+' \n')
         sys.stdout.write('DEBUG: create_task(): Plugin parameter 2 is: '+task['task-parameter2']+' \n')
         sys.stdout.write('DEBUG: create_task(): Plugin parameter 3 is: '+task['task-parameter3']+' \n')

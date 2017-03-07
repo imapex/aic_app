@@ -58,17 +58,14 @@ def update_zone(ipaddress, zname, vID, NPwwn, DevAlias, zset, WWNorDEVAlias):
 
 
     response = requests.post(url, data=json.dumps(payload), headers=header, auth=(username, password)).json()
-    print "DEBUG: update_zone(): zone", zname, "added member", NPwwn, "with message:", json.dumps(
-        response[3]['result']['msg'], indent=4)  # print 'DEBUG: update_zone(): NX-APIs Response 2:'
-    print (json.dumps(response[2]['result']['msg'], indent=4))
-    #   print 'DEBUG: update_zone(): NX-APIs Response 3:'
-    print (json.dumps(response[3]['result']['msg'], indent=4))
-
+    print "DEBUG: update_zone(): zone", zname, "added member", NPwwn, "with message:" 
+    print json.dumps(response[2]['result']['msg'], indent=4)
+    print json.dumps(response[3]['result']['msg'], indent=4)  
 
 # configure_zone() takes the switch ip address, OldPwwn, Old Device Alias (future),
 # and the New Pwwn.
 #
-# Routine first searches existing the zoneset for instances of the Old Pwwn or DevAlias
+# Routine first searches existing zoneset for instances of the Old Pwwn or DevAlias
 # and then adds the NewPwwn to those zones or updates the DevAlias with the new Pwwn
 # and then activates the new updated zoneset.
 #
@@ -101,8 +98,12 @@ def configure_zone(ipaddress, OldPwwn, DevAlias, NewPwwn):
     # and activate the zoneset
     #
     # start by parsing the zoneset table
+    print 'DEBUG: configure_zone(): Parsing the zoneset table.'
+    print 'DEBUG: configure_zone(): For each zone in the switch, loop through each zone member searching for an Old WWN match.'
     for zoneset_vsan in zone_table:
+        print 'DEBUG: configure_zone(): Starting zone set search.'
         for zones in zoneset_vsan['TABLE_zone']['ROW_zone']:  #
+            print 'DEBUG: configure_zone(): Starting zone search.'
             # Parsing inconsistant json structure. If single zone in zoneset,
             # ROW_zone is type dict rather than list.
             # Testing type and proceeding accordingly.
@@ -113,7 +114,7 @@ def configure_zone(ipaddress, OldPwwn, DevAlias, NewPwwn):
                 print json.dumps(zones, sort_keys=True, indent=4, separators=(',', ': '))
                 # more than one zone, cycle through them
             for zone_member in zones['TABLE_zone_member']['ROW_zone_member']:
-                print 'DEBUG: configure_zone(): zone_member:'
+                print 'DEBUG: configure_zone(): Searching zone member:'
                 print json.dumps(zone_member, sort_keys=True, indent=4, separators=(',', ': '))
                 try:
                     # Check for target Pwwn in this zone. If zone_member.get('wwn') is not None and zone_member.get('wwn') == OldPwwn:
@@ -141,6 +142,9 @@ def configure_zone(ipaddress, OldPwwn, DevAlias, NewPwwn):
                         update_zone(ipaddress, zonename, vsanID, NewPwwn, DevAlias, zoneset, WWNorDEVAlias)
                 except:
                     print ('top loop debug')
+            print 'DEBUG: configure_zone(): Searched all zone members in this zone. If more zones exisit, we will search those next.'
+        print 'DEBUG: configure_zone(): Searched all zones in this zone set. If more zone sets exist, we will search those next.'
+    print 'DEBUG: configure_zone(): Searched all zones sets.'
 
 
 def zone():
@@ -157,4 +161,4 @@ def zone():
     return
 
 
-zone()
+#zone()

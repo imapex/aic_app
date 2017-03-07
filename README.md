@@ -60,7 +60,7 @@ Option B:
 
 The latest build of this project is also available as a Docker image from Docker Hub:
 
-    docker pull username/aic_app:latest
+    docker pull michaelbonnettjr/aic_app:latest
 
 ### Repository File Contents
 
@@ -72,8 +72,8 @@ The latest build of this project is also available as a Docker image from Docker
 | app.py | Main application code. | 
 | requirements.txt | Lists the required Python modules. | 
 | tests.py | Contains the unit test python code. | 
-| zone.py | Will contain the majority of the HBA Swap workflow logic. (Once the merge conflict is worked out.) |
-| zone_mbonnett.py | Currently contains the majority of the HBA Swap workflow logic. (Code will be moved to zone.py in the future.) |
+| zone.py | Contains the majority of the HBA Swap workflow logic. |
+| Dockerfile | Instructions for building a Docker image. |
 
 ## Install
 
@@ -86,9 +86,13 @@ In either case, the application requires certian enviormental variables be prese
 
 ### Docker Install 
 
-This section is a work in progress...
-
 The AIC application is pre-installed in the Docker image and will start when the aic_app container is started. 
+
+Start the aic_app Docker container:
+
+    docker run -p 127.0.0.1:5000:5000 -e AIC_USER=<your-username-here> -e AIC_PASSWORD=<your-password-here> michaelbonnettjr/aic_app
+
+The -p flag in the "docker run" command expsoes the AIC REST API on port 5000 of the localhost.  The -e flag is used to set the enviormental variables.
 
 ### Local Install
 
