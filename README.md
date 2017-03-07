@@ -72,8 +72,8 @@ The latest build of this project is also available as a Docker image from Docker
 | app.py | Main application code. | 
 | requirements.txt | Lists the required Python modules. | 
 | tests.py | Contains the unit test python code. | 
-| zone.py | Will contain the majority of the HBA Swap workflow logic. (Once the merge conflict is worked out.) |
-| zone_mbonnett.py | Currently contains the majority of the HBA Swap workflow logic. (Code will be moved to zone.py in the future.) |
+| zone.py | Contains the majority of the HBA Swap workflow logic. |
+| Dockerfile | Instructions for building a Docker image. |
 
 ## Install
 
