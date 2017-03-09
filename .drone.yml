@@ -16,9 +16,3 @@ publish:
     username: $$DOCKER_USERNAME
     password: $$DOCKER_PASSWORD
     email: $$DOCKER_EMAIL
-
-deploy:
-  webhook:
-    image: plugins/drone-webhook
-    urls:
-      - https://$$MARATHON/marathon/v2/apps/$$APPNAME/restart
