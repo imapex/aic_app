@@ -1,11 +1,11 @@
-import app
+import aic_api
 import unittest
 
 class FlaskTestCase(unittest.TestCase):
 
     def setUp(self):
-        app.app.config['TESTING'] = True
-        self.app = app.app.test_client()
+        aic_api.app.config['TESTING'] = True
+        self.app = aic_api.app.test_client()
 
     def test_correct_http_response(self):
         resp = self.app.get('/')
