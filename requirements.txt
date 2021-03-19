@@ -2,7 +2,7 @@ click==6.6
 Flask==1.0.0
 Flask-Testing==0.6.1
 itsdangerous==0.24
-Jinja2==2.10.1
+Jinja2==2.11.3
 MarkupSafe==0.23
 requests==2.20.0
 uuid==1.30
